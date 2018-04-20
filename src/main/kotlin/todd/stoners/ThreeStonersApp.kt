@@ -1,26 +1,23 @@
 package todd.stoners
 
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
+
 fun main(args: Array<String>) {
-    print("hello");
-}
 
-enum class Material {
-    WEED, PAPERS, MATCHES
-}
+    val messageQueue = StonerMessageQueue()
+    val todd = Stoner("Todd", Material.WEED, "Harpreet", messageQueue);
+    val harpreet = Stoner("Harpreet", Material.MATCHES, "Jibin", messageQueue);
 
-class HippyCircle(vararg nameAndMaterialList: Pair<String, Material>) {
-    val stoners = (0 until nameAndMaterialList.size).map { index ->
-        val neighborIndex = if(index == nameAndMaterialList.size - 1) 0 else index + 1
-        Stoner(
-                nameAndMaterialList.get(index).first,
-                nameAndMaterialList.get(index).second,
-                nameAndMaterialList.get(neighborIndex).first
-        )
+
+    val deferred = (listOf(todd, harpreet)).map { stoner ->
+        async {
+            stoner.start()
+        }
+    }
+
+    runBlocking {
+        deferred
+        println("Done");
     }
 }
-
-data class Stoner(
-        val name: String,
-        val material: Material,
-        val neighborName: String
-)
