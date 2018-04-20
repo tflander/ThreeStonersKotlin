@@ -6,18 +6,27 @@ import kotlinx.coroutines.experimental.runBlocking
 fun main(args: Array<String>) {
 
     val messageQueue = StonerMessageQueue()
-    val todd = Stoner("Todd", Material.WEED, "Harpreet", messageQueue);
-    val harpreet = Stoner("Harpreet", Material.MATCHES, "Jibin", messageQueue);
 
+    val hippyCircle = HippyCircle(messageQueue,
+            Pair("Todd", Material.WEED),
+            Pair("Harpreet", Material.MATCHES),
+            Pair("Jibin", Material.PAPERS)
+    )
 
-    val deferred = (listOf(todd, harpreet)).map { stoner ->
+    val deferred = (hippyCircle.stoners).map { stoner ->
         async {
             stoner.start()
         }
     }
 
-    runBlocking {
-        deferred
-        println("Done");
+    hippyCircle.stoners.forEach() {stoner ->
+        messageQueue.sendMessage(Message(stoner.name, "", "Material Requested"))
     }
+
+    runBlocking {
+        deferred.forEach() { deferredStoner ->
+            deferredStoner.await()
+        }
+    }
+    println("Done");
 }

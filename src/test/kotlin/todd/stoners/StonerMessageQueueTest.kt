@@ -20,6 +20,6 @@ class StonerMessageQueueTest {
 
     @Test
     fun `stoner listens to message queue`() {
-        messageQueue.sendMessage("Todd", "System", "Roll one")
+        messageQueue.sendMessage(Message("Todd", "System", "Roll one"))
     }
 }

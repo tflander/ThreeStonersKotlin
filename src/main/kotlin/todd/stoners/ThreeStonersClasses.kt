@@ -1,5 +1,7 @@
 package todd.stoners
 
+import java.util.*
+
 
 enum class Material {
     WEED, PAPERS, MATCHES
@@ -24,14 +26,44 @@ data class Stoner(
         val messageQueue: StonerMessageQueue
 ) {
     fun start() {
-        println("foo")
-//        delay(300)
+
+        while (true) {
+            messageQueue.messages.forEach() {
+                if (it.reciepientName == name) {
+                    processMessage(it)
+                }
+                Thread.sleep(300)
+            }
+        }
+    }
+
+    private fun processMessage(message: Message) {
+        println("processing message $message")
+
     }
 }
 
-class StonerMessageQueue() {
-    fun sendMessage(reciepientName: String, senderName: String, message: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+data class Message(
+        val reciepientName: String,
+        val senderName: String,
+        val message: String
+)
 
+class StonerMessageQueue() {
+
+    val messages = Stack<Message>()
+
+    fun sendMessage(message: Message) {
+        messages.push(message)
+    }
+}
+
+class StonerMessageProcessorFactory {
+    private val map = mapOf(
+            "Material Requested" to MaterialRequestedProcessor()
+    )
+
+    fun processorFor(message: String): MessageProcessor? {
+        return map.get(message)
+    }
 }
