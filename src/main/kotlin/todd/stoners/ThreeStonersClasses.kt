@@ -28,12 +28,15 @@ data class Stoner(
     fun start() {
 
         while (true) {
-            messageQueue.messages.forEach() {
-                if (it.reciepientName == name) {
-                    processMessage(it)
+            val messages = messageQueue.messages
+            if(messages.isNotEmpty()) {
+                val topMessage = messages.peek()
+                if (topMessage.reciepientName == name) {
+                    messages.pop(); // TODO: thread-safe?
+                    processMessage(topMessage)
                 }
-                Thread.sleep(300)
             }
+            Thread.sleep(300)
         }
     }
 

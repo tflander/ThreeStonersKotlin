@@ -5,8 +5,11 @@ abstract class MessageProcessor {
 }
 
 class MaterialRequestedProcessor : MessageProcessor() {
+
     override fun process(message: Message, stoner: Stoner) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val messages = stoner.messageQueue.messages
+        val msg = stoner.name + " placed " + stoner.material.name.toLowerCase() + " on the table."
+        messages.push(Message(message.senderName, stoner.name, msg))
     }
 
 }

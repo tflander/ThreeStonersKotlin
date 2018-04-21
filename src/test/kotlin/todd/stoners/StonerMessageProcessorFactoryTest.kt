@@ -1,6 +1,5 @@
 package todd.stoners
 
-import assertk.Assert
 import org.junit.Test
 import assertk.assert
 import assertk.assertions.*
@@ -11,13 +10,11 @@ class StonerMessageProcessorFactoryTest {
 
     @Test
     fun `handles request for material`() {
-        val a = processorFactory.processorFor("Material Requested")
-        println(a)
-        assert(a is MaterialRequestedProcessor).isTrue()
+        assert(processorFactory.processorFor("Material Requested") is MaterialRequestedProcessor).isTrue()
+    }
+
+    @Test
+    fun `handles unknown message by returning null`() {
+        assert(processorFactory.processorFor("Unknown Message")).isNull()
     }
 }
-
-//fun Assert<MessageProcessor?>.isType(expected: String) {
-//    if (actual.javaClass.class == expected) return
-//    expected("age:${show(expected)} but was age:${show(actual.age)}")
-//}
