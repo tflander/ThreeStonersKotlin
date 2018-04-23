@@ -60,13 +60,3 @@ class StonerMessageQueue() {
         messages.push(message)
     }
 }
-
-class StonerMessageProcessorFactory {
-    private val map = mapOf(
-            "Material Requested" to MaterialRequestedProcessor()
-    )
-
-    fun processorFor(message: String): MessageProcessor? {
-        return map.get(message)
-    }
-}

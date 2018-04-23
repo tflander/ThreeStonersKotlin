@@ -14,7 +14,13 @@ class StonerMessageProcessorFactoryTest {
     }
 
     @Test
+    fun `handles message that material was put on the table`() {
+        assert(processorFactory.processorFor("Todd placed weed on the table.") is MaterialPlacedProcessor).isTrue()
+    }
+
+    @Test
     fun `handles unknown message by returning null`() {
         assert(processorFactory.processorFor("Unknown Message")).isNull()
     }
+
 }
