@@ -28,8 +28,10 @@ class MessageProcessorsTest {
     fun `stoner's turn to roll processor adds material request message for other stoners`() {
         val processor = StonersTurnToRollProcessor()
         processor.process(Message(stoner!!.name, "", ""), stoner!!)
-        assert(messageQueue?.messages?.size).isEqualTo(2)
-        // TODO: assert material request messages
+        val messages = messageQueue?.messages!!
+        assert(messages.size).isEqualTo(2)
+        assert(messages.get(0)).isEqualTo(Message("Harpreet", "Todd", "Material Requested"))
+        assert(messages.get(1)).isEqualTo(Message("Jibin", "Todd", "Material Requested"))
     }
 
     @Test
