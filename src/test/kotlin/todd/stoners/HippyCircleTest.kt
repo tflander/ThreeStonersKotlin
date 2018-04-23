@@ -4,7 +4,7 @@ import org.junit.Test
 import assertk.assert
 import assertk.assertions.*
 
-class ThreeStonersTest {
+class HippyCircleTest {
 
     val messageQueue = StonerMessageQueue()
 
