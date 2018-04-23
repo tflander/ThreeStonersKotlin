@@ -6,12 +6,10 @@ abstract class MessageProcessor {
 
 class StonersTurnToRollProcessor : MessageProcessor() {
     override fun process(message: Message, stoner: Stoner) {
-        println("TEMP DEBUG " + message)
         val messages = stoner.messageQueue.messages
         stoner.hippyCircle?.stoners?.forEach { stonerInCircle ->
             if(stonerInCircle.name != stoner.name) {
                 messages.push(Message(stonerInCircle.name, stoner.name, "Material Requested"))
-                println("TEMP DEBUG " + messages.get(0))
             }
         }
     }
