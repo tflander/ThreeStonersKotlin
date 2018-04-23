@@ -4,6 +4,17 @@ abstract class MessageProcessor {
     abstract fun process(message: Message, stoner: Stoner)
 }
 
+class StonersTurnToRollProcessor : MessageProcessor() {
+    override fun process(message: Message, stoner: Stoner) {
+        val messages = stoner.messageQueue.messages
+        stoner.hippyCircle?.stoners?.forEach { stonerInCircle ->
+            if(stonerInCircle.name != stoner.name) {
+                messages.push(Message(stoner.name, stonerInCircle.name, "Material Requested"))
+            }
+        }
+    }
+}
+
 class MaterialRequestedProcessor : MessageProcessor() {
 
     override fun process(message: Message, stoner: Stoner) {

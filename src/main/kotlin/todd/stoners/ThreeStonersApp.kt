@@ -14,14 +14,14 @@ fun main(args: Array<String>) {
     )
 
     val deferred = (hippyCircle.stoners).map { stoner ->
+        stoner.hippyCircle = hippyCircle
         async {
             stoner.start()
         }
     }
 
-    hippyCircle.stoners.forEach() {stoner ->
-        messageQueue.sendMessage(Message(stoner.name, "", "Material Requested"))
-    }
+    val firstStoner = hippyCircle.stoners.first()
+    messageQueue.sendMessage(Message(firstStoner.name, "", "Your turn to roll"))
 
     runBlocking {
         deferred.forEach() { deferredStoner ->

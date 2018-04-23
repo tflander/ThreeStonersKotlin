@@ -14,6 +14,11 @@ class StonerMessageProcessorFactoryTest {
     }
 
     @Test
+    fun `handles stoner's turn to roll`() {
+        assert(processorFactory.processorFor("Your turn to roll") is StonersTurnToRollProcessor).isTrue()
+    }
+
+    @Test
     fun `handles message that material was put on the table`() {
         assert(processorFactory.processorFor("Todd placed weed on the table.") is MaterialPlacedProcessor).isTrue()
     }

@@ -44,6 +44,10 @@ data class Stoner(
         println("processing message $message")
 
     }
+
+    // TODO: can this be a lazy val?
+    var hippyCircle: HippyCircle? = null
+
 }
 
 data class Message(

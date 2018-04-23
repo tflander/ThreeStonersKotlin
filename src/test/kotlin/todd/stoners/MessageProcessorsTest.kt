@@ -10,11 +10,26 @@ class MessageProcessorsTest {
 
     var messageQueue: StonerMessageQueue? = null
     var stoner: Stoner? = null
+    var hippyCircle: HippyCircle? = null
 
     @Before
     fun init() {
         messageQueue = StonerMessageQueue()
         stoner = Stoner("Todd", Material.WEED, "Harpreet", messageQueue!!)
+        hippyCircle = HippyCircle(messageQueue!!,
+                Pair("Todd", Material.WEED),
+                Pair("Harpreet", Material.MATCHES),
+                Pair("Jibin", Material.PAPERS)
+        )
+        stoner!!.hippyCircle = hippyCircle
+    }
+
+    @Test
+    fun `stoner's turn to roll processor adds material request message for other stoners`() {
+        val processor = StonersTurnToRollProcessor()
+        processor.process(Message(stoner!!.name, "", ""), stoner!!)
+        assert(messageQueue?.messages?.size).isEqualTo(2)
+        // TODO: assert material request messages
     }
 
     @Test
@@ -43,11 +58,6 @@ class MessageProcessorsTest {
         assert(messageOnQueue).hasMessageMatching("""Todd rolled a joint with \d+ tokes.""")
     }
 
-    @Test
-    fun regexSpike() {
-        assert("testing 123 testing").matches("""testing \d+ testing""".toRegex())
-    }
-
     fun Assert<Message>.hasSender(expected: String) {
         assert(actual.senderName, name="senderName").isEqualTo(expected)
     }
@@ -60,3 +70,4 @@ class MessageProcessorsTest {
         assert(actual.message, name="message").matches(expected.toRegex())
     }
 }
+

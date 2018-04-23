@@ -6,7 +6,8 @@ interface StonerMessageProcessorStrategy {
 
 class MessageLookupStrategy : StonerMessageProcessorStrategy {
     private val map = mapOf(
-            "Material Requested" to MaterialRequestedProcessor()
+            "Material Requested" to MaterialRequestedProcessor(),
+            "Your turn to roll" to StonersTurnToRollProcessor()
     )
 
     override fun processorFor(message: String): MessageProcessor? {
@@ -18,7 +19,6 @@ class MessageLookupStrategy : StonerMessageProcessorStrategy {
 class MaterialPlacedStrategy : StonerMessageProcessorStrategy {
     override fun processorFor(message: String): MessageProcessor? {
         val wordsInMessage = message.split(" ")
-        // Todd placed weed on the table
         if(wordsInMessage.size == 6) {
             if(wordsInMessage.get(1) == "placed") {
                 return MaterialPlacedProcessor()
