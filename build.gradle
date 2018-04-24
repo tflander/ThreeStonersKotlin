@@ -37,6 +37,7 @@ dependencies {
     testCompile 'junit:junit:4.11'
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testCompile 'com.willowtreeapps.assertk:assertk:0.10'
+    testCompile 'org.mockito:mockito-core:2.18.3'
 }
 
 task wrapper(type: Wrapper) {

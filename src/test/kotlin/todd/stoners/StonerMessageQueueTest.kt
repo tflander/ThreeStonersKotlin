@@ -1,26 +1,26 @@
 package todd.stoners
 
+import org.junit.Ignore
 import org.junit.Test
-import assertk.assert
-import assertk.assertions.*
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnitRunner
 
+@RunWith(MockitoJUnitRunner::class)
 class StonerMessageQueueTest {
+
+    @Mock
+    lateinit var processorFactory: StonerMessageProcessorFactory
 
     val messageQueue = StonerMessageQueue()
 
-//    class StonerSpy : Stoner(val name: String,
-//    val material: Material,
-//    val neighborName: String,
-//    val messageQueue: StonerMessageQueue) {
-//
-//    }
-
     val todd = Stoner("Todd", Material.WEED, "Harpreet", messageQueue);
-    val harpreet = Stoner("Harpreet", Material.MATCHES, "Jibin", messageQueue);
 
-    @Test
-    fun `stoner listens to message queue`() {
+    @Test @Ignore // TODO: fails because stoner::start() loop is not run
+    fun `stoner uses the processor factory to process messages from the message queue`() {
+        todd.processorFactory = processorFactory
         messageQueue.sendMessage(Message("Todd", "System", "Roll one"))
-        // TODO: test this
+        Mockito.verify(processorFactory).processorFor("Roll one")
     }
 }

@@ -1,5 +1,7 @@
 package todd.stoners
 
+import org.springframework.stereotype.Component
+
 interface StonerMessageProcessorStrategy {
     fun processorFor(message: String): MessageProcessor?
 }
@@ -29,6 +31,7 @@ class MaterialPlacedStrategy : StonerMessageProcessorStrategy {
 
 }
 
+@Component
 class StonerMessageProcessorFactory : StonerMessageProcessorStrategy{
     val strategies = listOf(
             MessageLookupStrategy(),

@@ -1,11 +1,16 @@
 package todd.stoners
 
+import org.springframework.beans.factory.annotation.Autowired
+
 data class Stoner(
         val name: String,
         val material: Material,
         val neighborName: String,
         val messageQueue: StonerMessageQueue
 ) {
+    @Autowired
+    lateinit var processorFactory: StonerMessageProcessorFactory
+
     fun start() {
 
         while (true) {
@@ -23,7 +28,9 @@ data class Stoner(
 
     private fun processMessage(message: Message) {
         println("processing message $message")
+
         // TODO: Use processor factory
+        val messageProcessor = processorFactory.processorFor(message.message)
 
     }
 
