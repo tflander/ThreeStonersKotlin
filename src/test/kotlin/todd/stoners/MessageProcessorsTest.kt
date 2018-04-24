@@ -51,9 +51,9 @@ class MessageProcessorsTest {
     @Test
     fun `given all material placed on table, roll fatty processor adds message that joint was rolled`() {
         val processor = RollFattyProcessor()
-        processor.process(Message(stoner!!.name, "Todd", "Todd took papers"), stoner!!)
+        processor.process(Message(stoner!!.name, "Todd", "Todd took papers."), stoner!!)
         assert(messageQueue?.messages?.isEmpty())
-        processor.process(Message(stoner!!.name, "Todd", "Todd took matches"), stoner!!)
+        processor.process(Message(stoner!!.name, "Todd", "Todd took matches."), stoner!!)
         val messageOnQueue = messageQueue?.messages?.first!!
         assert(messageOnQueue).hasSender("Todd")
         assert(messageOnQueue).hasRecipient("Todd")

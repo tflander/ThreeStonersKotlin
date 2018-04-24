@@ -44,10 +44,11 @@ class RollFattyProcessor : MessageProcessor() {
 
     override fun process(message: Message, stoner: Stoner) {
         val wordsInMessage = message.message.split(" ")
-        val material = wordsInMessage.get(2)
+        val material = wordsInMessage.get(2).replace('.', ' ').trim()
 
         materialCollected.add(Material.valueOf(material.toUpperCase()))
         materialCollected.add(stoner.material)
+        println(materialCollected.size)
         if(materialCollected.size == 3) {
             val messages = stoner.messageQueue.messages
             val tokes = (Math.random() * 4 + 7).toInt()

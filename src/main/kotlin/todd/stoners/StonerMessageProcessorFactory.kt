@@ -31,11 +31,26 @@ class MaterialPlacedStrategy : StonerMessageProcessorStrategy {
 
 }
 
+
+class RollFattyStrategy : StonerMessageProcessorStrategy {
+    val processor = RollFattyProcessor()
+    override fun processorFor(message: String): MessageProcessor? {
+        val wordsInMessage = message.split(" ")
+        if(wordsInMessage.size == 3) {
+            if(wordsInMessage.get(1) == "took") {
+                return processor
+            }
+        }
+        return null
+    }
+}
+
 @Component
 open class StonerMessageProcessorFactory : StonerMessageProcessorStrategy{
     val strategies = listOf(
             MessageLookupStrategy(),
-            MaterialPlacedStrategy()
+            MaterialPlacedStrategy(),
+            RollFattyStrategy()
     )
 
     override fun processorFor(message: String): MessageProcessor? {
