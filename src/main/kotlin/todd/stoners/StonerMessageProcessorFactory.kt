@@ -18,31 +18,44 @@ class MessageLookupStrategy : StonerMessageProcessorStrategy {
 
 }
 
-class MaterialPlacedStrategy : StonerMessageProcessorStrategy {
+abstract class MultiWordStrategy : StonerMessageProcessorStrategy {
+    abstract fun getProcessor(): MessageProcessor
+    abstract fun testWords(wordsInMessage: List<String>): Boolean
+
     override fun processorFor(message: String): MessageProcessor? {
         val wordsInMessage = message.split(" ")
-        if(wordsInMessage.size == 6) {
-            if(wordsInMessage.get(1) == "placed") {
-                return MaterialPlacedProcessor()
-            }
+        if(testWords(wordsInMessage)) {
+            return getProcessor()
         }
+
         return null
     }
+}
+
+class MaterialPlacedStrategy : MultiWordStrategy() {
+
+    override fun testWords(wordsInMessage: List<String>): Boolean {
+        return wordsInMessage.size == 6 && wordsInMessage.get(1) == "placed"
+    }
+
+    override fun getProcessor(): MessageProcessor {
+        return processor
+    }
+
+    val processor = MaterialPlacedProcessor()
 
 }
 
-
-class RollFattyStrategy : StonerMessageProcessorStrategy {
-    val processor = RollFattyProcessor()
-    override fun processorFor(message: String): MessageProcessor? {
-        val wordsInMessage = message.split(" ")
-        if(wordsInMessage.size == 3) {
-            if(wordsInMessage.get(1) == "took") {
-                return processor
-            }
-        }
-        return null
+class RollFattyStrategy : MultiWordStrategy() {
+    override fun testWords(wordsInMessage: List<String>): Boolean {
+        return wordsInMessage.size == 3 && wordsInMessage.get(1) == "took"
     }
+
+    override fun getProcessor(): MessageProcessor {
+        return processor
+    }
+
+    val processor = RollFattyProcessor()
 }
 
 @Component

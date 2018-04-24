@@ -34,7 +34,6 @@ class MaterialPlacedProcessor : MessageProcessor() {
         val messages = stoner.messageQueue.messages
         messages.push(Message(stoner.name, stoner.name, msg))
     }
-
 }
 
 class RollFattyProcessor : MessageProcessor() {
@@ -48,7 +47,6 @@ class RollFattyProcessor : MessageProcessor() {
 
         materialCollected.add(Material.valueOf(material.toUpperCase()))
         materialCollected.add(stoner.material)
-        println(materialCollected.size)
         if(materialCollected.size == 3) {
             val messages = stoner.messageQueue.messages
             val tokes = (Math.random() * 4 + 7).toInt()
