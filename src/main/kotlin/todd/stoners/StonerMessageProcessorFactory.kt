@@ -32,7 +32,7 @@ class MaterialPlacedStrategy : StonerMessageProcessorStrategy {
 }
 
 @Component
-class StonerMessageProcessorFactory : StonerMessageProcessorStrategy{
+open class StonerMessageProcessorFactory : StonerMessageProcessorStrategy{
     val strategies = listOf(
             MessageLookupStrategy(),
             MaterialPlacedStrategy()
