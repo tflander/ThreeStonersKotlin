@@ -19,6 +19,9 @@ data class Stoner(
                 val topMessage = messages.peek()
                 if (topMessage.reciepientName == name) {
                     messages.pop(); // TODO: thread-safe?
+                    if(topMessage.message == "Exit") {
+                        return
+                    }
                     processMessage(topMessage)
                 }
             }
