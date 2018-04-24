@@ -60,6 +60,13 @@ class MessageProcessorsTest {
         assert(messageOnQueue).hasMessageMatching("""Todd rolled a joint with \d+ tokes.""")
     }
 
+    @Test
+    fun `given joint rolled, spark it up processor adds message that joint was lit`() {
+        val processor = SparkItUpProcessor()
+        processor.process(Message(stoner!!.name, "Todd", "Todd rolled a joint with 8 tokes."), stoner!!)
+        assert(messageQueue?.messages?.first).isEqualTo(Message(stoner!!.name, "Todd","Todd sparks it up."))
+    }
+
     fun Assert<Message>.hasSender(expected: String) {
         assert(actual.senderName, name="senderName").isEqualTo(expected)
     }

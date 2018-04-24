@@ -56,3 +56,12 @@ class RollFattyProcessor : MessageProcessor() {
     }
 
 }
+
+class SparkItUpProcessor : MessageProcessor() {
+    override fun process(message: Message, stoner: Stoner) {
+        val msg = stoner.name + " sparks it up."
+        val messages = stoner.messageQueue.messages
+        messages.push(Message(message.senderName, stoner.name, msg))
+    }
+
+}

@@ -58,12 +58,26 @@ class RollFattyStrategy : MultiWordStrategy() {
     val processor = RollFattyProcessor()
 }
 
+class SparkItUpStrategy : MultiWordStrategy() {
+    override fun getProcessor(): MessageProcessor {
+        return processor
+    }
+
+    override fun testWords(wordsInMessage: List<String>): Boolean {
+        return wordsInMessage.size == 7 && wordsInMessage.get(1) == "rolled"
+    }
+
+    val processor = SparkItUpProcessor()
+
+}
+
 @Component
 open class StonerMessageProcessorFactory : StonerMessageProcessorStrategy{
     val strategies = listOf(
             MessageLookupStrategy(),
             MaterialPlacedStrategy(),
-            RollFattyStrategy()
+            RollFattyStrategy(),
+            SparkItUpStrategy()
     )
 
     override fun processorFor(message: String): MessageProcessor? {

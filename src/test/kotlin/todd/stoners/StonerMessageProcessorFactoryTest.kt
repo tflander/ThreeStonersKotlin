@@ -29,6 +29,11 @@ class StonerMessageProcessorFactoryTest {
     }
 
     @Test
+    fun `handles message that joint was rolled`() {
+        assert(processorFactory.processorFor("Todd rolled a joint with 8 tokes.") is SparkItUpProcessor).isTrue()
+    }
+
+    @Test
     fun `handles unknown message by returning null`() {
         assert(processorFactory.processorFor("Unknown Message")).isNull()
     }
