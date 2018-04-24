@@ -6,6 +6,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -33,6 +34,15 @@ class StonerTest {
         println("Blocking Thread (Co-Routine) Terminated by Exit")
     }
 
-    // TODO: verify use of processor factory
+    @Test
+    fun `non-exit message is handled through the processor factory`() {
+        messageQueue.sendMessage(Message(stoner.name, "", "Some message"))
+        messageQueue.sendMessage(Message(stoner.name, "", "Exit"))
+        runBlocking {
+            deferredStoner.await()
+        }
+
+        Mockito.verify(processorFactory).processorFor("Some message")
+    }
 
 }

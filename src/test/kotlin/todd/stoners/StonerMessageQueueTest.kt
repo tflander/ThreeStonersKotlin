@@ -14,7 +14,8 @@ class StonerMessageQueueTest {
         assert(messages).isEmpty()
         val message = Message("Todd", "System", "Roll one")
         messageQueue.sendMessage(message)
-        assert(messages).containsExactly(message)
+        assert(messages.size).isEqualTo(1)
+        assert(messages.first).isEqualTo(message)
     }
 
 }

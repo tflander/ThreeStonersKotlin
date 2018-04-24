@@ -16,9 +16,9 @@ data class Stoner(
         while (true) {
             val messages = messageQueue.messages
             if(messages.isNotEmpty()) {
-                val topMessage = messages.peek()
+                val topMessage = messages.first
                 if (topMessage.reciepientName == name) {
-                    messages.pop(); // TODO: thread-safe?
+                    messages.remove(); // TODO: thread-safe?
                     if(topMessage.message == "Exit") {
                         return
                     }

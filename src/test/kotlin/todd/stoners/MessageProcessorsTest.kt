@@ -30,22 +30,22 @@ class MessageProcessorsTest {
         processor.process(Message(stoner!!.name, "", ""), stoner!!)
         val messages = messageQueue?.messages!!
         assert(messages.size).isEqualTo(2)
-        assert(messages.get(0)).isEqualTo(Message("Harpreet", "Todd", "Material Requested"))
-        assert(messages.get(1)).isEqualTo(Message("Jibin", "Todd", "Material Requested"))
+        assert(messages.first).isEqualTo(Message("Jibin", "Todd", "Material Requested"))
+        assert(messages.last).isEqualTo(Message("Harpreet", "Todd", "Material Requested"))
     }
 
     @Test
     fun `material requested processor adds message that material was placed on table`() {
         val processor = MaterialRequestedProcessor()
         processor.process(Message(stoner!!.name, "Jibin", ""), stoner!!)
-        assert(messageQueue?.messages?.get(0)).isEqualTo(Message("Jibin", stoner!!.name, "Todd placed weed on the table."))
+        assert(messageQueue?.messages?.first).isEqualTo(Message("Jibin", stoner!!.name, "Todd placed weed on the table."))
     }
 
     @Test
     fun `material placed processor adds message that material was picked up`() {
         val processor = MaterialPlacedProcessor()
         processor.process(Message(stoner!!.name, "Jibin", "Jibin placed papers on the table"), stoner!!)
-        assert(messageQueue?.messages?.get(0)).isEqualTo(Message(stoner!!.name, "Todd","Todd took papers."))
+        assert(messageQueue?.messages?.first).isEqualTo(Message(stoner!!.name, "Todd","Todd took papers."))
     }
 
     @Test
@@ -54,7 +54,7 @@ class MessageProcessorsTest {
         processor.process(Message(stoner!!.name, "Todd", "Todd took papers"), stoner!!)
         assert(messageQueue?.messages?.isEmpty())
         processor.process(Message(stoner!!.name, "Todd", "Todd took matches"), stoner!!)
-        val messageOnQueue = messageQueue?.messages?.get(0)!!
+        val messageOnQueue = messageQueue?.messages?.first!!
         assert(messageOnQueue).hasSender("Todd")
         assert(messageOnQueue).hasRecipient("Todd")
         assert(messageOnQueue).hasMessageMatching("""Todd rolled a joint with \d+ tokes.""")

@@ -15,9 +15,9 @@ data class Message(
 
 class StonerMessageQueue() {
 
-    val messages = Stack<Message>()
+    val messages = ArrayDeque<Message>()
 
     fun sendMessage(message: Message) {
-        messages.push(message)
+        messages.add(message)
     }
 }
