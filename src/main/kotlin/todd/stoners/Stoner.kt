@@ -32,9 +32,8 @@ data class Stoner(
     private fun processMessage(message: Message) {
         println("processing message $message")
 
-        // TODO: Use processor factory
         val messageProcessor = processorFactory.processorFor(message.message)
-
+        messageProcessor?.process(message, this)
     }
 
     // TODO: can this be a lazy val?

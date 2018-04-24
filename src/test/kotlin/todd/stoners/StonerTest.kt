@@ -15,6 +15,9 @@ class StonerTest {
     @Mock
     lateinit var processorFactory: StonerMessageProcessorFactory
 
+    @Mock
+    lateinit var mockMessageProcessor: MessageProcessor
+
     val messageQueue = StonerMessageQueue()
     val stoner: Stoner = Stoner("Todd", Material.WEED, "Harpreet", messageQueue)
 
@@ -36,13 +39,17 @@ class StonerTest {
 
     @Test
     fun `non-exit message is handled through the processor factory`() {
-        messageQueue.sendMessage(Message(stoner.name, "", "Some message"))
+        val msg = "Some message"
+        Mockito.`when`(processorFactory.processorFor(msg)).thenReturn(mockMessageProcessor)
+        val message = Message(stoner.name, "", msg)
+        messageQueue.sendMessage(message)
         messageQueue.sendMessage(Message(stoner.name, "", "Exit"))
         runBlocking {
             deferredStoner.await()
         }
 
-        Mockito.verify(processorFactory).processorFor("Some message")
+        Mockito.verify(processorFactory).processorFor(msg)
+        Mockito.verify(mockMessageProcessor).process(message, stoner)
     }
 
 }
