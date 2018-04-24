@@ -8,8 +8,8 @@ data class Stoner(
         val neighborName: String,
         val messageQueue: StonerMessageQueue
 ) {
-    @Autowired
     lateinit var processorFactory: StonerMessageProcessorFactory
+    lateinit var hippyCircle: HippyCircle
 
     fun start() {
 
@@ -35,8 +35,5 @@ data class Stoner(
         val messageProcessor = processorFactory.processorFor(message.message)
         messageProcessor?.process(message, this)
     }
-
-    // TODO: can this be a lazy val?
-    var hippyCircle: HippyCircle? = null
 
 }

@@ -21,7 +21,7 @@ class MessageProcessorsTest {
                 Pair("Harpreet", Material.MATCHES),
                 Pair("Jibin", Material.PAPERS)
         )
-        stoner!!.hippyCircle = hippyCircle
+        stoner!!.hippyCircle = hippyCircle!!
     }
 
     @Test

@@ -2,6 +2,7 @@ package todd.stoners
 
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -9,6 +10,9 @@ import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
 class ThreeStonersApp {
+
+    @Autowired
+    lateinit var  processorFactory: StonerMessageProcessorFactory
 
     @Bean
     fun init() = CommandLineRunner {
@@ -23,6 +27,7 @@ class ThreeStonersApp {
 
         val deferred = (hippyCircle.stoners).map { stoner ->
             stoner.hippyCircle = hippyCircle
+            stoner.processorFactory = processorFactory
             async {
                 stoner.start()
             }
