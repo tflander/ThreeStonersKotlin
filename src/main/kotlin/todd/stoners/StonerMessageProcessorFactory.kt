@@ -18,69 +18,42 @@ class MessageLookupStrategy : StonerMessageProcessorStrategy {
 
 }
 
-abstract class MultiWordStrategy : StonerMessageProcessorStrategy {
-    abstract fun getProcessor(): MessageProcessor
+abstract class MultiWordStrategy(val processor: MessageProcessor) : StonerMessageProcessorStrategy {
     abstract fun testWords(wordsInMessage: List<String>): Boolean
 
     override fun processorFor(message: String): MessageProcessor? {
         val wordsInMessage = message.split(" ")
         if(testWords(wordsInMessage)) {
-            return getProcessor()
+            return processor
         }
 
         return null
     }
 }
 
-class MaterialPlacedStrategy : MultiWordStrategy() {
+class MaterialPlacedStrategy : MultiWordStrategy(MaterialPlacedProcessor()) {
 
     override fun testWords(wordsInMessage: List<String>): Boolean {
         return wordsInMessage.size == 6 && wordsInMessage.get(1) == "placed"
     }
-
-    override fun getProcessor(): MessageProcessor {
-        return processor
-    }
-
-    val processor = MaterialPlacedProcessor()
-
 }
 
-class RollFattyStrategy : MultiWordStrategy() {
+class RollFattyStrategy : MultiWordStrategy(RollFattyProcessor()) {
     override fun testWords(wordsInMessage: List<String>): Boolean {
         return wordsInMessage.size == 3 && wordsInMessage.get(1) == "took"
     }
-
-    override fun getProcessor(): MessageProcessor {
-        return processor
-    }
-
-    val processor = RollFattyProcessor()
 }
 
-class ReceiveFirstPassStrategy : MultiWordStrategy() {
+class ReceiveFirstPassStrategy : MultiWordStrategy(ReceiveFirstPassProcessor()) {
     override fun testWords(wordsInMessage: List<String>): Boolean {
         return wordsInMessage.size == 14 && wordsInMessage.get(1) == "rolled"
     }
-
-    override fun getProcessor(): MessageProcessor {
-        return processor
-    }
-
-    val processor = ReceiveFirstPassProcessor()
 }
 
-class ReceivePassStrategy : MultiWordStrategy() {
-    override fun getProcessor(): MessageProcessor {
-        return processor
-    }
-
+class ReceivePassStrategy : MultiWordStrategy(ReceivePassProcessor()) {
     override fun testWords(wordsInMessage: List<String>): Boolean {
         return  wordsInMessage.size == 14 && wordsInMessage.get(1) == "takes"
     }
-
-    val processor = ReceivePassProcessor()
-
 }
 
 @Component
