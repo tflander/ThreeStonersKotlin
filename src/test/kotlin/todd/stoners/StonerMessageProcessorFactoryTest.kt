@@ -29,8 +29,13 @@ class StonerMessageProcessorFactoryTest {
     }
 
     @Test
-    fun `handles message that joint was received`() {
+    fun `handles message that joint was received after being lit`() {
         assert(processorFactory.processorFor("Todd rolled a joint with 7 tokes, takes a hit, and passes to Harpreet.") is ReceiveFirstPassProcessor).isTrue()
+    }
+
+    @Test
+    fun `handles message that joint was received after first pass`() {
+        assert(processorFactory.processorFor("Todd takes a hit from a joint with 7 tokes, then passes to Harpreet.") is ReceivePassProcessor).isTrue()
     }
 
     @Test

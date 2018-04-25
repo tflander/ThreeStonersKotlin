@@ -15,14 +15,16 @@ data class Stoner(
 
         while (true) {
             val messages = messageQueue.messages
-            if(messages.isNotEmpty()) {
-                val topMessage = messages.first
-                if (topMessage.reciepientName == name) {
-                    messages.remove();
-                    if(topMessage.message == "Exit") {
-                        return
+            synchronized(messages) {
+                if (messages.isNotEmpty()) {
+                    val topMessage = messages.first
+                    if (topMessage.reciepientName == name) {
+                        messages.remove();
+                        if (topMessage.message == "Exit") {
+                            return
+                        }
+                        processMessage(topMessage)
                     }
-                    processMessage(topMessage)
                 }
             }
             Thread.sleep(300)

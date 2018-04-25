@@ -61,13 +61,24 @@ class MessageProcessorsTest {
     }
 
     @Test
-    fun `received pass processor adds message that joint was tolked and passed`() {
+    fun `received first pass processor adds message that joint was tolked and passed`() {
         val processor = ReceiveFirstPassProcessor()
         processor.process(Message(stoner!!.name, "Jibin", "Jibin rolled a joint with 7 tokes, takes a hit, and passes to Todd."), stoner!!)
         val messageFromQueue = messageQueue?.messages?.first!!
         assert(messageFromQueue).hasSender("Todd")
         assert(messageFromQueue).hasRecipient("Harpreet")
-        assert(messageFromQueue).hasMessageMatching("""Todd tokes.  Now there are 5 left.  Passing to Harpreet.""")
+        assert(messageFromQueue).hasMessageMatching("""Todd takes a hit from a joint with 6 tokes, then passes to Harpreet.""")
+    }
+
+    @Test
+    fun `given more than one hit left, received first pass processor add message for pass to the next stoner`() {
+        val processor = ReceivePassProcessor()
+        val msg = "Jibin takes a hit from a joint with 7 tokes, then passes to Todd."
+        processor.process(Message(stoner!!.name, "Jibin", msg), stoner!!)
+        val messageFromQueue = messageQueue?.messages?.first!!
+        assert(messageFromQueue).hasSender("Todd")
+        assert(messageFromQueue).hasRecipient("Harpreet")
+        assert(messageFromQueue).hasMessageMatching("""Todd takes a hit from a joint with 6 tokes, then passes to Harpreet.""")
     }
 
     fun Assert<Message>.hasSender(expected: String) {

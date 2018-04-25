@@ -60,9 +60,19 @@ class ReceiveFirstPassProcessor : MessageProcessor() {
     override fun process(message: Message, stoner: Stoner) {
         val wordsInMessage = message.message.split(" ")
         val originalTokes = wordsInMessage.get(5).toInt()
-        val updatedTokes = originalTokes - 2
         val messages = stoner.messageQueue.messages
-        val msg = stoner.name + " tokes.  Now there are " + updatedTokes +" left.  Passing to " + stoner.neighborName + "."
+        val msg = stoner.name + " takes a hit from a joint with " + (originalTokes - 1) +" tokes, then passes to " + stoner.neighborName + "."
         messages.add(Message(stoner.neighborName, stoner.name, msg))
     }
+}
+
+class ReceivePassProcessor : MessageProcessor() {
+    override fun process(message: Message, stoner: Stoner) {
+        val wordsInMessage = message.message.split(" ")
+        val originalTokes = wordsInMessage.get(8).toInt()
+        val messages = stoner.messageQueue.messages
+        val msg = stoner.name + " takes a hit from a joint with " + (originalTokes - 1) +" tokes, then passes to " + stoner.neighborName + "."
+        messages.add(Message(stoner.neighborName, stoner.name, msg))
+    }
+
 }
