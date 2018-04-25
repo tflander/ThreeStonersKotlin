@@ -18,8 +18,7 @@ class MessageLookupStrategy : StonerMessageProcessorStrategy {
 
 }
 
-abstract class MultiWordStrategy(val processor: MessageProcessor) : StonerMessageProcessorStrategy {
-    abstract fun testWords(wordsInMessage: List<String>): Boolean
+abstract class MultiWordStrategy(val processor: MessageProcessor, val testWords: (words: List<String>) -> Boolean) : StonerMessageProcessorStrategy {
 
     override fun processorFor(message: String): MessageProcessor? {
         val wordsInMessage = message.split(" ")
@@ -31,30 +30,21 @@ abstract class MultiWordStrategy(val processor: MessageProcessor) : StonerMessag
     }
 }
 
-class MaterialPlacedStrategy : MultiWordStrategy(MaterialPlacedProcessor()) {
+class MaterialPlacedStrategy : MultiWordStrategy(MaterialPlacedProcessor(), {
+    wordsInMessage -> wordsInMessage.size == 6 && wordsInMessage.get(1) == "placed"
+})
 
-    override fun testWords(wordsInMessage: List<String>): Boolean {
-        return wordsInMessage.size == 6 && wordsInMessage.get(1) == "placed"
-    }
-}
+class RollFattyStrategy : MultiWordStrategy(RollFattyProcessor(), {
+    wordsInMessage -> wordsInMessage.size == 3 && wordsInMessage.get(1) == "took"
+})
 
-class RollFattyStrategy : MultiWordStrategy(RollFattyProcessor()) {
-    override fun testWords(wordsInMessage: List<String>): Boolean {
-        return wordsInMessage.size == 3 && wordsInMessage.get(1) == "took"
-    }
-}
+class ReceiveFirstPassStrategy : MultiWordStrategy(ReceiveFirstPassProcessor(), {
+    wordsInMessage -> wordsInMessage.size == 14 && wordsInMessage.get(1) == "rolled"
+})
 
-class ReceiveFirstPassStrategy : MultiWordStrategy(ReceiveFirstPassProcessor()) {
-    override fun testWords(wordsInMessage: List<String>): Boolean {
-        return wordsInMessage.size == 14 && wordsInMessage.get(1) == "rolled"
-    }
-}
-
-class ReceivePassStrategy : MultiWordStrategy(ReceivePassProcessor()) {
-    override fun testWords(wordsInMessage: List<String>): Boolean {
-        return  wordsInMessage.size == 14 && wordsInMessage.get(1) == "takes"
-    }
-}
+class ReceivePassStrategy : MultiWordStrategy(ReceivePassProcessor(), {
+    wordsInMessage -> wordsInMessage.size == 14 && wordsInMessage.get(1) == "takes"
+})
 
 @Component
 open class StonerMessageProcessorFactory : StonerMessageProcessorStrategy{
