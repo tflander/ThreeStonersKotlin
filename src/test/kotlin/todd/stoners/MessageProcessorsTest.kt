@@ -58,6 +58,7 @@ class MessageProcessorsTest {
         assert(messageOnQueue).hasSender("Todd")
         assert(messageOnQueue).hasRecipient("Harpreet")
         assert(messageOnQueue).hasMessageMatching("""Todd rolled a joint with \d+ tokes, takes a hit, and passes to Harpreet.""")
+        assert(processor.materialCollected.size).isEqualTo(0)
     }
 
     @Test

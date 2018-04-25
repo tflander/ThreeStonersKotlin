@@ -52,6 +52,7 @@ class RollFattyProcessor : MessageProcessor() {
             val tokes = (Math.random() * 4 + 7).toInt()
             val msg = stoner.name + " rolled a joint with " + tokes + " tokes, takes a hit, and passes to Harpreet."
             messages.add(Message(stoner.neighborName, stoner.name, msg))
+            materialCollected.clear()
         }
     }
 }
