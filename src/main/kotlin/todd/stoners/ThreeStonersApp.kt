@@ -37,11 +37,11 @@ class ThreeStonersApp {
         messageQueue.sendMessage(Message(firstStoner.name, "", "Your turn to roll"))
 
         runBlocking {
-            deferred.forEach() { deferredStoner ->
+            deferred.forEach { deferredStoner ->
                 deferredStoner.await()
             }
         }
-        println("Done");
+        println("Done")
     }
 }
 

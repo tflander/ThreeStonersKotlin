@@ -1,7 +1,5 @@
 package todd.stoners
 
-import org.springframework.beans.factory.annotation.Autowired
-
 data class Stoner(
         val name: String,
         val material: Material,
@@ -19,7 +17,7 @@ data class Stoner(
                 if (messages.isNotEmpty()) {
                     val topMessage = messages.first
                     if (topMessage.reciepientName == name) {
-                        messages.remove();
+                        messages.remove()
                         if (topMessage.message == "Exit") {
                             return
                         }

@@ -13,7 +13,7 @@ data class Message(
         val message: String
 )
 
-class StonerMessageQueue() {
+class StonerMessageQueue {
 
     val messages = ArrayDeque<Message>()
 
