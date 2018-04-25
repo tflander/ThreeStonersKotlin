@@ -62,7 +62,7 @@ class MessageProcessorsTest {
 
     @Test
     fun `received pass processor adds message that joint was tolked and passed`() {
-        val processor = ReceivePassProcessor()
+        val processor = ReceiveFirstPassProcessor()
         processor.process(Message(stoner!!.name, "Jibin", "Jibin rolled a joint with 7 tokes, takes a hit, and passes to Todd."), stoner!!)
         val messageFromQueue = messageQueue?.messages?.first!!
         assert(messageFromQueue).hasSender("Todd")

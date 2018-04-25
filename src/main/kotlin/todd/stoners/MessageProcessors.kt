@@ -56,7 +56,7 @@ class RollFattyProcessor : MessageProcessor() {
     }
 }
 
-class ReceivePassProcessor : MessageProcessor() {
+class ReceiveFirstPassProcessor : MessageProcessor() {
     override fun process(message: Message, stoner: Stoner) {
         val wordsInMessage = message.message.split(" ")
         val originalTokes = wordsInMessage.get(5).toInt()

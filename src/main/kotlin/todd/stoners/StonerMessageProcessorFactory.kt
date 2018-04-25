@@ -67,7 +67,7 @@ class ReceivePassStrategy : MultiWordStrategy() {
         return processor
     }
 
-    val processor = ReceivePassProcessor()
+    val processor = ReceiveFirstPassProcessor()
 }
 
 
