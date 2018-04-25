@@ -7,7 +7,7 @@ abstract class MessageProcessor {
 class StonersTurnToRollProcessor : MessageProcessor() {
     override fun process(message: Message, stoner: Stoner) {
         val messages = stoner.messageQueue.messages
-        stoner.hippyCircle?.stoners?.forEach { stonerInCircle ->
+        stoner.hippyCircle.stoners.forEach { stonerInCircle ->
             if(stonerInCircle.name != stoner.name) {
                 messages.add(Message(stonerInCircle.name, stoner.name, "Material Requested"))
             }
