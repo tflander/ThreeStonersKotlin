@@ -30,8 +30,8 @@ class MessageProcessorsTest {
         processor.process(Message(stoner!!.name, "", ""), stoner!!)
         val messages = messageQueue?.messages!!
         assert(messages.size).isEqualTo(2)
-        assert(messages.first).isEqualTo(Message("Jibin", "Todd", "Material Requested"))
-        assert(messages.last).isEqualTo(Message("Harpreet", "Todd", "Material Requested"))
+        assert(messages.first).isEqualTo(Message("Harpreet", "Todd", "Material Requested"))
+        assert(messages.last).isEqualTo(Message("Jibin", "Todd", "Material Requested"))
     }
 
     @Test
@@ -56,15 +56,18 @@ class MessageProcessorsTest {
         processor.process(Message(stoner!!.name, "Todd", "Todd took matches."), stoner!!)
         val messageOnQueue = messageQueue?.messages?.first!!
         assert(messageOnQueue).hasSender("Todd")
-        assert(messageOnQueue).hasRecipient("Todd")
-        assert(messageOnQueue).hasMessageMatching("""Todd rolled a joint with \d+ tokes.""")
+        assert(messageOnQueue).hasRecipient("Harpreet")
+        assert(messageOnQueue).hasMessageMatching("""Todd rolled a joint with \d+ tokes, takes a hit, and passes to Harpreet.""")
     }
 
     @Test
-    fun `given joint rolled, spark it up processor adds message that joint was lit`() {
-        val processor = SparkItUpProcessor()
-        processor.process(Message(stoner!!.name, "Todd", "Todd rolled a joint with 8 tokes."), stoner!!)
-        assert(messageQueue?.messages?.first).isEqualTo(Message(stoner!!.name, "Todd","Todd sparks it up."))
+    fun `received pass processor adds message that joint was tolked and passed`() {
+        val processor = ReceivePassProcessor()
+        processor.process(Message(stoner!!.name, "Jibin", "Jibin rolled a joint with 7 tokes, takes a hit, and passes to Todd."), stoner!!)
+        val messageFromQueue = messageQueue?.messages?.first!!
+        assert(messageFromQueue).hasSender("Todd")
+        assert(messageFromQueue).hasRecipient("Harpreet")
+        assert(messageFromQueue).hasMessageMatching("""Todd tokes.  Now there are 5 left.  Passing to Harpreet.""")
     }
 
     fun Assert<Message>.hasSender(expected: String) {

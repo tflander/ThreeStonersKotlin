@@ -9,7 +9,7 @@ class StonersTurnToRollProcessor : MessageProcessor() {
         val messages = stoner.messageQueue.messages
         stoner.hippyCircle?.stoners?.forEach { stonerInCircle ->
             if(stonerInCircle.name != stoner.name) {
-                messages.push(Message(stonerInCircle.name, stoner.name, "Material Requested"))
+                messages.add(Message(stonerInCircle.name, stoner.name, "Material Requested"))
             }
         }
     }
@@ -20,7 +20,7 @@ class MaterialRequestedProcessor : MessageProcessor() {
     override fun process(message: Message, stoner: Stoner) {
         val msg = stoner.name + " placed " + stoner.material.name.toLowerCase() + " on the table."
         val messages = stoner.messageQueue.messages
-        messages.push(Message(message.senderName, stoner.name, msg))
+        messages.add(Message(message.senderName, stoner.name, msg))
     }
 
 }
@@ -32,7 +32,7 @@ class MaterialPlacedProcessor : MessageProcessor() {
         val material = wordsInMessage.get(2)
         val msg = stoner.name + " took " + material + "."
         val messages = stoner.messageQueue.messages
-        messages.push(Message(stoner.name, stoner.name, msg))
+        messages.add(Message(stoner.name, stoner.name, msg))
     }
 }
 
@@ -50,18 +50,19 @@ class RollFattyProcessor : MessageProcessor() {
         if(materialCollected.size == 3) {
             val messages = stoner.messageQueue.messages
             val tokes = (Math.random() * 4 + 7).toInt()
-            val msg = stoner.name + " rolled a joint with " + tokes + " tokes."
-            messages.push(Message(stoner.name, stoner.name, msg))
+            val msg = stoner.name + " rolled a joint with " + tokes + " tokes, takes a hit, and passes to Harpreet."
+            messages.add(Message(stoner.neighborName, stoner.name, msg))
         }
     }
-
 }
 
-class SparkItUpProcessor : MessageProcessor() {
+class ReceivePassProcessor : MessageProcessor() {
     override fun process(message: Message, stoner: Stoner) {
-        val msg = stoner.name + " sparks it up."
+        val wordsInMessage = message.message.split(" ")
+        val originalTokes = wordsInMessage.get(5).toInt()
+        val updatedTokes = originalTokes - 2
         val messages = stoner.messageQueue.messages
-        messages.push(Message(message.senderName, stoner.name, msg))
+        val msg = stoner.name + " tokes.  Now there are " + updatedTokes +" left.  Passing to " + stoner.neighborName + "."
+        messages.add(Message(stoner.neighborName, stoner.name, msg))
     }
-
 }
