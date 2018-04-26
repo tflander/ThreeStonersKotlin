@@ -1,5 +1,7 @@
 package todd.stoners
 
+import java.util.*
+
 data class Stoner(
         val name: String,
         val material: Material,
@@ -15,18 +17,23 @@ data class Stoner(
             val messages = messageQueue.messages
             synchronized(messages) {
                 if (messages.isNotEmpty()) {
-                    val topMessage = messages.first
-                    if (topMessage.reciepientName == name) {
-                        messages.remove()
-                        if (topMessage.message == "Exit") {
-                            return
-                        }
-                        processMessage(topMessage)
-                    }
+                    if (processTestingForExit(messages)) return
                 }
             }
             Thread.sleep(300)
         }
+    }
+
+    private fun processTestingForExit(messages: ArrayDeque<Message>): Boolean {
+        val topMessage = messages.first
+        if (topMessage.reciepientName == name) {
+            messages.remove()
+            if (topMessage.message == "Exit") {
+                return true
+            }
+            processMessage(topMessage)
+        }
+        return false
     }
 
     private fun processMessage(message: Message) {

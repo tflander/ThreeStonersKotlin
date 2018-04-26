@@ -49,7 +49,6 @@ class RollFattyProcessor : MessageProcessor() {
 
     val materialCollected = HashSet<Material>()
 
-
     override fun process(message: Message, stoner: Stoner) {
         val wordsInMessage = message.message.split(" ")
         val material = wordsInMessage.get(2).replace('.', ' ').trim()
