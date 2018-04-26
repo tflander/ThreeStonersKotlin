@@ -6,18 +6,6 @@ interface StonerMessageProcessorStrategy {
     fun processorFor(message: String): MessageProcessor?
 }
 
-class MessageLookupStrategy : StonerMessageProcessorStrategy {
-    private val map = mapOf(
-            "Material Requested" to MaterialRequestedProcessor(),
-            "Your turn to roll" to StonersTurnToRollProcessor()
-    )
-
-    override fun processorFor(message: String): MessageProcessor? {
-        return map.get(message)
-    }
-
-}
-
 abstract class MultiWordStrategy(val processor: MessageProcessor, val testWords: (words: List<String>) -> Boolean) : StonerMessageProcessorStrategy {
 
     override fun processorFor(message: String): MessageProcessor? {
@@ -29,6 +17,10 @@ abstract class MultiWordStrategy(val processor: MessageProcessor, val testWords:
         return null
     }
 }
+
+class TurnToRollStrategy : MultiWordStrategy(StonersTurnToRollProcessor(), {
+    wordsInMessage -> wordsInMessage.size == 4 && wordsInMessage.get(1) == "needs"
+})
 
 class MaterialRequestedStrategy : MultiWordStrategy(MaterialRequestedProcessor(), {
     wordsInMessage -> wordsInMessage.size == 5 && wordsInMessage.get(1) == "requested"
@@ -54,7 +46,7 @@ class ReceivePassStrategy : MultiWordStrategy(ReceivePassProcessor(), {
 open class StonerMessageProcessorFactory : StonerMessageProcessorStrategy{
     val strategies = listOf(
             MaterialRequestedStrategy(),
-            MessageLookupStrategy(),
+            TurnToRollStrategy(),
             MaterialPlacedStrategy(),
             RollFattyStrategy(),
             ReceiveFirstPassStrategy(),

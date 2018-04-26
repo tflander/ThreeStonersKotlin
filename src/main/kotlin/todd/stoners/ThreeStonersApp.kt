@@ -34,7 +34,7 @@ class ThreeStonersApp {
         }
 
         val firstStoner = hippyCircle.stoners.first()
-        messageQueue.sendMessage(Message(firstStoner.name, "", "Your turn to roll"))
+        messageQueue.sendMessage(Message(firstStoner.name, "", firstStoner.name + " needs to roll"))
 
         runBlocking {
             deferred.forEach { deferredStoner ->

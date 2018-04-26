@@ -90,7 +90,7 @@ class MessageProcessorsTest {
         val messageFromQueue = messageQueue?.messages?.first!!
         assert(messageFromQueue).hasSender("Todd")
         assert(messageFromQueue).hasRecipient("Harpreet")
-        assert(messageFromQueue).hasMessageMatching("""Your turn to roll""")
+        assert(messageFromQueue).hasMessageMatching("""Harpreet needs to roll""")
     }
 
     fun Assert<Message>.hasSender(expected: String) {

@@ -75,7 +75,7 @@ class ReceivePassProcessor : MessageProcessor() {
         val msg = if(originalTokes > 1) {
             stoner.name + " takes a hit from a joint with " + (originalTokes - 1) + " tokes, then passes to " + stoner.neighborName + "."
         } else {
-            "Your turn to roll"
+            stoner.neighborName + " needs to roll"
         }
         messages.add(Message(stoner.neighborName, stoner.name, msg))
     }
