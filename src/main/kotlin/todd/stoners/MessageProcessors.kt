@@ -9,7 +9,7 @@ class StonersTurnToRollProcessor : MessageProcessor() {
         val messages = stoner.messageQueue.messages
         stoner.hippyCircle.stoners.forEach { stonerInCircle ->
             if(stonerInCircle.name != stoner.name) {
-                messages.add(Message(stonerInCircle.name, stoner.name, "Material Requested"))
+                messages.add(Message(stonerInCircle.name, stoner.name, stoner.name + " requested material from " + stonerInCircle.name + "."))
             }
         }
     }

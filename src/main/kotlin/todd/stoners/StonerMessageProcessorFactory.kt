@@ -30,6 +30,10 @@ abstract class MultiWordStrategy(val processor: MessageProcessor, val testWords:
     }
 }
 
+class MaterialRequestedStrategy : MultiWordStrategy(MaterialRequestedProcessor(), {
+    wordsInMessage -> wordsInMessage.size == 5 && wordsInMessage.get(1) == "requested"
+})
+
 class MaterialPlacedStrategy : MultiWordStrategy(MaterialPlacedProcessor(), {
     wordsInMessage -> wordsInMessage.size == 6 && wordsInMessage.get(1) == "placed"
 })
@@ -49,6 +53,7 @@ class ReceivePassStrategy : MultiWordStrategy(ReceivePassProcessor(), {
 @Component
 open class StonerMessageProcessorFactory : StonerMessageProcessorStrategy{
     val strategies = listOf(
+            MaterialRequestedStrategy(),
             MessageLookupStrategy(),
             MaterialPlacedStrategy(),
             RollFattyStrategy(),

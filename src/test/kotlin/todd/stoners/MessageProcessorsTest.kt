@@ -30,8 +30,8 @@ class MessageProcessorsTest {
         processor.process(Message(stoner!!.name, "", ""), stoner!!)
         val messages = messageQueue?.messages!!
         assert(messages.size).isEqualTo(2)
-        assert(messages.first).isEqualTo(Message("Harpreet", "Todd", "Material Requested"))
-        assert(messages.last).isEqualTo(Message("Jibin", "Todd", "Material Requested"))
+        assert(messages.first).isEqualTo(Message("Harpreet", "Todd", "Todd requested material from Harpreet."))
+        assert(messages.last).isEqualTo(Message("Jibin", "Todd", "Todd requested material from Jibin."))
     }
 
     @Test

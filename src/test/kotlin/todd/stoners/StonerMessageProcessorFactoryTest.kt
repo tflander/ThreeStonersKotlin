@@ -10,7 +10,7 @@ class StonerMessageProcessorFactoryTest {
 
     @Test
     fun `handles request for material`() {
-        assert(processorFactory.processorFor("Material Requested") is MaterialRequestedProcessor).isTrue()
+        assert(processorFactory.processorFor("Todd requested material from Harpreet.") is MaterialRequestedProcessor).isTrue()
     }
 
     @Test
