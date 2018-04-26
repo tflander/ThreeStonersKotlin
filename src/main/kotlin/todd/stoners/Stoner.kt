@@ -37,7 +37,7 @@ data class Stoner(
     }
 
     private fun processMessage(message: Message) {
-        println("processing message $message")
+        println("tid=" + Thread.currentThread().id + ": processing $message")
 
         val messageProcessor = processorFactory.processorFor(message.message)
         messageProcessor?.process(message, this)
